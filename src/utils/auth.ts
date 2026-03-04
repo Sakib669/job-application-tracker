@@ -9,6 +9,26 @@ export const auth = betterAuth({
   database: mongodbAdapter(db),
   baseURL: "http://localhost:3000/",
   emailAndPassword: { enabled: true },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   socialProviders: {
     apple: {
       clientId: process.env.APPLE_CLIENT_ID!,
