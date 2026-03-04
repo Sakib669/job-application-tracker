@@ -5,10 +5,20 @@ import {
   CheckCircle2,
   Mic,
   Mic2,
+  MoreVertical,
+  Trash2,
   XCircle,
 } from "lucide-react";
 import React from "react";
-import { Card, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { Button } from "./ui/button";
+import CreateJobApplicationDialog from "./CreateJobApplicationDialog";
 
 interface Props {
   userId: string;
@@ -26,7 +36,7 @@ const COLUMN_CONFIG: Array<ColConfig> = [
     icon: <Calendar className="h-4 w-4" />,
   },
   {
-    color: "bg-purle-500",
+    color: "bg-purple-500",
     icon: <CheckCircle2 className="h-4 w-4" />,
   },
   {
@@ -53,15 +63,38 @@ const DroppableColumn = ({
   boardId: string;
 }) => {
   return (
-    <Card>
-      <CardHeader className={`${config.color}`}>
-        <div>
-          <div>
+    <Card className="min-w-75 flex-shring-0 shadow-md p-0">
+      <CardHeader className={`${config.color} text-white rounded-t-lg pb-3 pt-3`}>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
             {config.icon}
-            <CardTitle>{column.name}</CardTitle>
+            <CardTitle className="text-white text-base font-semibold">{column.name}</CardTitle>
           </div>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant={"ghost"}
+                size={"icon"}
+                className="h-6 w-6 text-white hover:bg-whiet-20"
+              >
+                <MoreVertical className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem className="text-destructive">
+                <Trash2 className="mr-2 h-4 w-4" />
+                Delete Column
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </CardHeader>
+
+       <CardContent className="space-y-2 pt-4 bg-gray-50/50 min-h-100 rounded-br-lg">
+
+        <CreateJobApplicationDialog columnId={column._id} boardId={boardId} />
+       </CardContent>
     </Card>
   );
 };
