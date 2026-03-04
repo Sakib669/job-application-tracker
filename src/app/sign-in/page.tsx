@@ -82,7 +82,7 @@ const SignIn = ({}: Props) => {
               <Input
                 onChange={(e) => setPassword(e.target.value)}
                 id="password"
-                type="password"
+                type="text"
                 placeholder="Enter your password"
                 required
               />
@@ -93,7 +93,7 @@ const SignIn = ({}: Props) => {
               disabled={loading}
               className="flex-1 w-full cursor-pointer hover:text-gray-600"
             >
-              Sign In
+              {loading ? "Creating account..." : "Sign In"}
             </Button>
             <p className="text-sm text-gray-600">
               Don't have an account?{" "}

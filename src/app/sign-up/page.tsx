@@ -94,7 +94,7 @@ const SignUp = ({}: Props) => {
               <Input
                 onChange={(e) => setPassword(e.target.value)}
                 id="password"
-                type="password"
+                type="text"
                 placeholder="Enter your password"
                 required
               />
