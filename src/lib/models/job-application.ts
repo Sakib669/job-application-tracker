@@ -1,6 +1,6 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Document as MongooseDocument } from "mongoose";
 
-export interface IJobApplication  {
+export interface IJobApplication  extends MongooseDocument{
   company: string;
   position: string;
   location?: string;

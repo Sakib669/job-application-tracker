@@ -1,5 +1,6 @@
 import connectDB from "./db";
 import Board from "./models/board";
+import Column from "./models/column";
 
 const DEFAULT_COLUMNS = [
   {
@@ -29,6 +30,23 @@ export const initializeUserBaord = async (userId: string) => {
       userId,
       column: [],
     });
+
+    // create default columns
+    const columns = await Promise.all(
+      DEFAULT_COLUMNS.map((col) =>
+        Column.create({
+          name: col.name,
+          order: col.order,
+          boardId: board._id,
+          jobApplication: [],
+        }),
+      ),
+    );
+    // update the board with the new column IDs
+    board.columns = columns.map((col) => col._id);
+    await board.save();
+
+    return board;
   } catch (error) {
     throw error;
   }
