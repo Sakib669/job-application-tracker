@@ -85,7 +85,7 @@ const JobApplicationSchema = new Schema<IJobApplication>(
   }
 );
 
-const JobApplcation =
-  mongoose.models.Column || mongoose.model<IJobApplication>("JobApplication", JobApplicationSchema);
+const JobApplication =
+  mongoose.models.JobApplication || mongoose.model<IJobApplication>("JobApplication", JobApplicationSchema);
 
-export default JobApplcation;
+export default JobApplication;

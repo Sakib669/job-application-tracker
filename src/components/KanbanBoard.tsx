@@ -1,10 +1,9 @@
-import { Board, Column } from "@/lib/models/models.types";
+import { Board, Column, JobApplication } from "@/lib/models/models.types";
 import {
   Award,
   Calendar,
   CheckCircle2,
   Mic,
-  Mic2,
   MoreVertical,
   Trash2,
   XCircle,
@@ -19,6 +18,7 @@ import {
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 import CreateJobApplicationDialog from "./CreateJobApplicationDialog";
+import JobApplicationCard from "./JobApplicationCard";
 
 interface Props {
   userId: string;
@@ -57,18 +57,26 @@ const DroppableColumn = ({
   column,
   config,
   boardId,
+  sortedColumns
 }: {
   column: Column;
   config: ColConfig;
   boardId: string;
+  sortedColumns: Column[]
 }) => {
+  const sortedJobs =
+    column.jobApplications.sort((a, b) => a.order - b.order) || [];
   return (
     <Card className="min-w-75 flex-shring-0 shadow-md p-0">
-      <CardHeader className={`${config.color} text-white rounded-t-lg pb-3 pt-3`}>
+      <CardHeader
+        className={`${config.color} text-white rounded-t-lg pb-3 pt-3`}
+      >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             {config.icon}
-            <CardTitle className="text-white text-base font-semibold">{column.name}</CardTitle>
+            <CardTitle className="text-white text-base font-semibold">
+              {column.name}
+            </CardTitle>
           </div>
 
           <DropdownMenu>
@@ -91,22 +99,40 @@ const DroppableColumn = ({
         </div>
       </CardHeader>
 
-       <CardContent className="space-y-2 pt-4 bg-gray-50/50 min-h-100 rounded-br-lg">
+      <CardContent className="space-y-2 pt-4 bg-gray-50/50 min-h-100 rounded-br-lg">
+        {sortedJobs.map((job, key) => (
+          <SortableJobCard key={key} job={{...job, columnId: job.columnId || column._id}} columns={sortedColumns}/>
+        ))}
 
         <CreateJobApplicationDialog columnId={column._id} boardId={boardId} />
-       </CardContent>
+      </CardContent>
     </Card>
   );
+};
+
+const SortableJobCard = ({
+  job,
+  columns,
+}: {
+  job: JobApplication;
+  columns: Column[];
+}) => {
+  return <div>
+    <JobApplicationCard job={job} columns={columns} />
+  </div>
 };
 
 const KanbanBoard = ({ board, userId }: Props) => {
   const columns = board?.columns;
 
+  const sortedColumns =
+    columns.sort((a, b) => a.order - b.order) || [];
+
+  console.log(columns);
   return (
     <>
       <div>
         <div>
-          KanbanBaord
           {columns?.map((col, key) => {
             const config = COLUMN_CONFIG[key] || {
               color: "bg-gray-500",
@@ -118,6 +144,7 @@ const KanbanBoard = ({ board, userId }: Props) => {
                 column={col}
                 config={config}
                 boardId={board._id}
+                sortedColumns={sortedColumns}
               />
             );
           })}

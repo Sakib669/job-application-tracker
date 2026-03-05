@@ -1,0 +1,97 @@
+"use server";
+
+import { getSession } from "@/utils/auth";
+import connectDB from "../db";
+import JobApplication from "../models/job-application";
+import Column from "../models/column";
+import Board from "../models/board";
+
+interface JobApplicationData {
+  company: string;
+  position: string;
+  location: string;
+  notes?: string;
+  salary?: string;
+  jobUrl?: string;
+  columnId: string;
+  boardId: string;
+  tags?: string[];
+  description?: string;
+}
+
+export const createJobApplication = async (data: JobApplicationData) => {
+  const session = await getSession();
+
+  if (!session?.user) {
+    return { error: "Unauthorized" };
+  }
+
+  await connectDB();
+
+  const {
+    company,
+    boardId,
+    columnId,
+    location,
+    position,
+    description,
+    jobUrl,
+    notes,
+    salary,
+    tags,
+  } = data;
+
+  if (!company || !position || !columnId || !boardId) {
+    return { error: "Missing required fields" };
+  }
+
+  // verify board ownership
+
+  const board = await Board.findOne({
+    _id: boardId,
+    userId: session.user.id,
+  });
+
+  if (!board) {
+    return { error: "Board not found" };
+  }
+
+  // verify column belongs to board
+  const column = await Column.findOne({
+    _id: columnId,
+    boardId: boardId,
+  });
+
+  if (!column) {
+    return { error: "Column not found" };
+  }
+
+  const maxOrder = (await JobApplication.findOne({ columnId })
+    .sort({
+      order: -1,
+    })
+    .select("order")
+    .lean()) as { order: number } | null;
+
+  const jobApplication = await JobApplication.create({
+    userId: session.user.id,
+    company,
+    boardId,
+    columnId,
+    location,
+    position,
+    description,
+    jobUrl,
+    notes,
+    salary,
+    tags: tags || [],
+    order: maxOrder ? maxOrder.order + 1 : 0,
+    status: "applied",
+  });
+
+  await Column.findByIdAndUpdate(columnId, {
+    $push: { jobApplications: jobApplication._id },
+  });
+
+  return { data: JSON.parse(JSON.stringify(jobApplication)) };
+};
