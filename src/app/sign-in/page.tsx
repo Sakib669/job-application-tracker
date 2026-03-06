@@ -12,11 +12,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signIn } from "@/lib/auth-client";
+import { Metadata } from "next";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface Props {}
+
+export const metadata : Metadata ={ 
+  title: "Sign-In | Job Application Tracker"
+}
 
 const SignIn = ({}: Props) => {
   const [email, setEmail] = useState("");

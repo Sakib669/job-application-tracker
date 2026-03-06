@@ -2,10 +2,15 @@ import KanbanBoard from "@/components/KanbanBoard";
 import connectDB from "@/lib/db";
 import Board from "@/lib/models/board";
 import { getSession } from "@/utils/auth";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 interface Props {}
+
+export const metadata : Metadata ={ 
+  title: "Dashboard | Job Application Tracker"
+}
 
 const getBoard = async (userId: string) => {
   "use cache";

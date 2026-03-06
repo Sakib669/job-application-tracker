@@ -1,7 +1,12 @@
 import ImageTabs from "@/components/ImageTabs";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Briefcase, CheckCircle2, TrendingUp } from "lucide-react";
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata : Metadata ={ 
+  title: "Job Application Tracker"
+}
 
 export default function Home() {
   return (
