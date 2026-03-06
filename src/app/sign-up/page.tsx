@@ -19,9 +19,7 @@ import { useState } from "react";
 
 interface Props {}
 
-export const metadata : Metadata ={ 
-  title: "Sign-Up | Job Application Tracker"
-}
+
 
 const SignUp = ({}: Props) => {
   const [name, setName] = useState("");
