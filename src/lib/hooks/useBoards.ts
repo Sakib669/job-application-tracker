@@ -19,7 +19,18 @@ export const useBoard = (initialBoard?: Board | null) => {
     jobApplicationId: string,
     newColumn: string,
     newOrder: number,
-  ) => {};
+  ) => {
+    // console.log(jobApplicationId, newColumn, newOrder);
 
-  return { board, columns, error };
+    setColumns((prev) =>{
+      const newColumns = prev.map((col) => ({
+        ...col, jobApplications: [...col.jobApplications]
+      }))
+
+      // find and remove job from the old column
+      
+    })
+  };
+
+  return { board, columns, error, moveJob };
 };
