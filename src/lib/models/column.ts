@@ -1,18 +1,28 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
 export interface IColumn extends Document {
   name: string;
-  boardId: string;
+  boardId: mongoose.Types.ObjectId;
   order: number;
   jobApplications: mongoose.Types.ObjectId[];
   createdAt: Date;
   updatedAt: Date;
 }
 
+// Board -> Columns -> JobApplications
+
 const ColumnSchema = new Schema<IColumn>(
   {
-    name: { type: String, required: true },
-    boardId: { type: String, required: true, index: true, ref: "Board" },
+    name: {
+      type: String,
+      required: true,
+    },
+    boardId: {
+      type: Schema.Types.ObjectId,
+      ref: "Board",
+      required: true,
+      index: true,
+    },
     order: {
       type: Number,
       required: true,
@@ -25,7 +35,9 @@ const ColumnSchema = new Schema<IColumn>(
       },
     ],
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+  },
 );
 
 const Column =

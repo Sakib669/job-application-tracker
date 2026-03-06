@@ -13,7 +13,7 @@ const DEFAULT_COLUMNS = [
   { name: "Rejected", order: 4 },
 ];
 
-export const initializeUserBaord = async (userId: string) => {
+export const initializeUserBoard = async (userId: string) => {
   try {
     await connectDB();
 
@@ -38,7 +38,7 @@ export const initializeUserBaord = async (userId: string) => {
           name: col.name,
           order: col.order,
           boardId: board._id,
-          jobApplication: [],
+          jobApplications: [],
         }),
       ),
     );

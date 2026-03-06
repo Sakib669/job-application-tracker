@@ -1,4 +1,4 @@
-import { initializeUserBaord } from "@/lib/init-user-board";
+import { initializeUserBoard } from "@/lib/init-user-board";
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { MongoClient } from "mongodb";
@@ -11,13 +11,19 @@ const db = client.db();
 export const auth = betterAuth({
   database: mongodbAdapter(db),
   baseURL: "http://localhost:3000/",
+  session: {
+    cookieCache: {
+      enabled: true,
+      maxAge: 60 * 60,
+    },
+  },
   emailAndPassword: { enabled: true },
   databaseHooks: {
     user: {
       create: {
         after: async (user) => {
           if (user.id) {
-            await initializeUserBaord(user.id);
+            await initializeUserBoard(user.id);
           }
         },
       },

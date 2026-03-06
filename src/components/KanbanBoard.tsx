@@ -1,3 +1,4 @@
+"use client"
 import { Board, Column, JobApplication } from "@/lib/models/models.types";
 import {
   Award,

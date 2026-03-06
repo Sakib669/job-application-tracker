@@ -1,6 +1,6 @@
-import mongoose, { Schema, Document as MongooseDocument } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
-export interface IJobApplication  extends MongooseDocument{
+export interface IJobApplication extends Document {
   company: string;
   position: string;
   location?: string;
@@ -82,10 +82,11 @@ const JobApplicationSchema = new Schema<IJobApplication>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const JobApplication =
-  mongoose.models.JobApplication || mongoose.model<IJobApplication>("JobApplication", JobApplicationSchema);
+  mongoose.models.JobApplication ||
+  mongoose.model<IJobApplication>("JobApplication", JobApplicationSchema);
 
 export default JobApplication;

@@ -1,5 +1,10 @@
 import mongoose from "mongoose";
 
+import "@/lib/models/board";
+import "@/lib/models/column";
+import "@/lib/models/job-application";
+
+
 const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
