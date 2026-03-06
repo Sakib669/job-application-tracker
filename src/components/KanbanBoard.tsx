@@ -309,7 +309,7 @@ const KanbanBoard = ({ board, userId }: Props) => {
     >
       <div className="space-y-4">
         <div className="flex gap-4 overflow-x-auto pb-4">
-          {columns?.map((col, key) => {
+          {sortedColumns?.map((col, key) => {
             const config = COLUMN_CONFIG[key] || {
               color: "bg-gray-500",
               icon: <Calendar className="h-4 w-4" />,
@@ -326,6 +326,8 @@ const KanbanBoard = ({ board, userId }: Props) => {
           })}
         </div>
       </div>
+
+      
     </DndContext>
   );
 };
