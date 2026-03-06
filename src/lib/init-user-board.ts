@@ -28,7 +28,7 @@ export const initializeUserBoard = async (userId: string) => {
     const board = await Board.create({
       name: "Job Hunt",
       userId,
-      column: [],
+      columns: [],
     });
 
     // create default columns
