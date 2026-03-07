@@ -8,9 +8,11 @@ import { redirect } from "next/navigation";
 const client = new MongoClient(process.env.MONGODB_URI!);
 const db = client.db();
 
+const baseURL = process.env.NEXT_PUBLIC_BETTER_AUTH_URL!;
+
 export const auth = betterAuth({
   database: mongodbAdapter(db),
-  baseURL: "http://localhost:3000/",
+  baseURL: baseURL,
   session: {
     cookieCache: {
       enabled: true,
